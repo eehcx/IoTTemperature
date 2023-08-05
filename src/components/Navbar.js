@@ -1,5 +1,6 @@
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react'
+import React, { useEffect, useState, useRef  } from 'react';
+import anime from 'animejs';
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -12,16 +13,42 @@ const navigation = [
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+    const elementRef = useRef(null);
+    const navRef = useRef(null);
+
+    useEffect(() => {
+        const element = elementRef.current;
+        const nav = navRef.current;
+
+        // Utiliza anime.js para animar el elemento
+        anime({
+            targets: element,
+            translateY: [-100, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 5000
+        });
+
+        anime({
+            targets: nav,
+            translateX: [-100, 0],
+            opacity: [0, 1],
+            easing: 'easeOutExpo',
+            duration: 1000
+      });
+    }, []);
+
     return (
         <>
             <header className="absolute inset-x-0 top-0 z-50">
-            <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <nav ref={navRef} className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                 <a href="/" className="-m-1.5 p-1.5">
                     <span className="sr-only">Your Company</span>
                     <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src="../assets/iTemp.svg"
                     alt=""
                     />
                 </a>
@@ -52,7 +79,7 @@ export default function Navbar() {
                     <span className="sr-only">Your Company</span>
                     <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        src="../assets/iTemp.svg"
                         alt=""
                     />
                     </a>

@@ -1,9 +1,11 @@
-import logo from './logo.svg';
-import { useState } from 'react'
+import React, { useEffect, useState, useRef  } from 'react';
 import { Dialog } from '@headlessui/react'
+import anime from 'animejs';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import Footer from './components/Footer';
 
 const navigation = [
+  {name: 'Inicio', href: '/'},
   { name: 'Uso', href: '/documentation' },
   { name: 'Acerca de', href: '/about' },
   { name: 'Colaboradores', href: '/colaborators' },
@@ -12,18 +14,44 @@ const navigation = [
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const elementRef = useRef(null);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+      const element = elementRef.current;
+      const nav = navRef.current;
+
+      // Utiliza anime.js para animar el elemento
+      anime({
+          targets: element,
+          translateY: [-100, 0],
+          opacity: [0, 1],
+          easing: 'easeOutExpo',
+          duration: 5000
+      });
+
+      anime({
+        targets: nav,
+        translateX: [-100, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1000
+    });
+  }, []);
+
   return (
     <div classNameName="App">
 
       <div className="bg-white">
         <header className="absolute inset-x-0 top-0 z-50">
-          <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+          <nav ref={navRef} className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
             <div className="flex lg:flex-1">
-              <a href="#" className="-m-1.5 p-1.5">
+              <a href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  src="https://firebasestorage.googleapis.com/v0/b/itemplore.appspot.com/o/iTemp.png?alt=media&token=4a2d8609-c409-48f4-af08-1e2e02a73d47"
                   alt=""
                 />
               </a>
@@ -47,7 +75,7 @@ function App() {
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <a href="/temperature" className="text-sm font-semibold leading-6 text-gray-900">
-                Ingresar <span aria-hidden="true">&rarr;</span>
+                Temperatura <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
           </nav>
@@ -59,7 +87,7 @@ function App() {
                   <span className="sr-only">Your Company</span>
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    src="https://firebasestorage.googleapis.com/v0/b/itemplore.appspot.com/o/iTemp.png?alt=media&token=4a2d8609-c409-48f4-af08-1e2e02a73d47"
                     alt=""
                   />
                 </a>
@@ -114,7 +142,7 @@ function App() {
           </div>
           <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
             <div className="text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+              <h1 ref={elementRef} className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                 IoT Proyect - Know your temperature
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
