@@ -1,0 +1,95 @@
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: backdrop-filter 0.3s;
+    overflow: hidden;
+}
+
+.app.blur {
+    backdrop-filter: blur(3px); /* Ajusta el desenfoque */
+    background-color: rgba(0, 0, 0, 0); /* Agrega un fondo transparente */
+}
+
+.back-container {
+    width: 140%;
+    height: 100vh; 
+    background-image: url('../assets/images/react.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.3s;
+}
+
+.back-container.scaled {
+    transform: scale(1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.content{
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.253));
+}
+
+/*https://codepen.io/Hyperplexed/pen/vYpXNJd*/
+
+.time{
+    font-family: "Rubik", sans-serif;
+    font-size: 7.5rem;
+    font-weight: 400;
+    color: #f2f2f2f6;
+    text-align: left;
+    margin-left: 5vw;
+    padding-top: 57vh;
+}
+
+.date {
+    padding-left: 6vw;
+    color: aliceblue;
+    font-size: 30px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: 50vw;
+    margin-top: -10vh;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+.button-container:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.button-container.blur-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s;
+}
+
+.fondo{
+    width: 140%;
+    height: 100vh; 
+    background-image: url('../assets/images/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
