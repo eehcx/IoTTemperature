@@ -5,6 +5,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue  } from 'firebase/database';
 import '../styles/temp.css'
+import Time from '../components/Time'
 
 const firebaseConfig = {
     apiKey: "AIzaSyDnoXJKGMwIT7TrCbjd-7YqEggoxz0QmQo",
@@ -19,23 +20,37 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+/*
 export default function Temperature() {
-    const elementRef = useRef(null);
-    const elementRef2 = useRef(null);
+    const [formularioActual, setFormularioActual] = useState(1);
+    const [visible, setVisible] = React.useState(false);
+    const [showBlur, setShowBlur] = useState(null);
 
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const mounth = fechaActual.getMonth() + 1;
-    const day = fechaActual.getDate();
-    const hour = fechaActual.getHours();
-    const minutes = fechaActual.getMinutes();
-    const [isImageScaled, setIsImageScaled] = useState(false);
-    const [showBlur, setShowBlur] = useState(false);
-
-    const handleButtonClick = () => {
-        //setIsImageScaled(!isImageScaled);
-        //setShowBlur(true);
+    function handleButtonClick() {
+        setFormularioActual(formularioActual + 1);
     };
+
+    return (
+        <>
+            {formularioActual === 1 && (
+                <div className={`app ${showBlur ? 'blur' : ''}`}>
+                    <div className='back-container'>
+                        <div className='content'>
+                            <Time onClick={this.handleButtonClick} />
+                        </div>
+                    </div>
+                </div>
+            )}
+            {formularioActual === 2 &&(
+                <>
+                    <Temp />
+                </>
+            )}
+        </>
+    )
+}*/
+
+export default function Temp() {
 
     const [temperature, setTemperature] = useState('');
 
@@ -43,24 +58,6 @@ export default function Temperature() {
     let tempRef; 
 
     useEffect(() => {
-        const element = elementRef.current;
-        const element2 = elementRef2.current;
-
-        anime({
-            targets: element,
-            translateY: [-100, 0],
-            opacity: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 5000
-        });
-
-        anime({
-            targets: element2,
-            translateX: [-100, 0],
-            opacity: [0, 1],
-            easing: 'easeOutExpo',
-            duration: 5000
-        });
 
         tempRef = ref(db, 'temperature/' + postId + '/grados');
         const unsubscribe = onValue(tempRef, (snapshot) => {
@@ -72,34 +69,24 @@ export default function Temperature() {
         };
     }, []);
 
-    function updateDateTime() {
-        const fechaActual = new Date();
-        const year = fechaActual.getFullYear();
-        const month = fechaActual.getMonth() + 1;
-        const day = fechaActual.getDate();
-        const hour = fechaActual.getHours();
-        const minutes = fechaActual.getMinutes();
+    let svg;
 
-        document.getElementById('time').innerHTML = `${hour}:${minutes}`;
-        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        document.getElementById('date').innerHTML = `${day} de ${meses[month - 1]} del ${year}`;
+    if (temperature >=30){
+        svg = '../assets/images/sun.svg';
+    } else if(temperature < 10) {
+        svg = '../assets/images/snow.svg';
     }
 
-    setInterval(updateDateTime, 1000);
-
-    return (
-        <div className={`app ${showBlur ? 'blur' : ''}`}>
-            <div className={`back-container ${isImageScaled ? 'scaled' : ''}`}>
-            <div className='content'>
-                <p className='time' id='time'>Time</p>
-                <p className='date' id='date'>Date</p>
-                <button className={`button-container`} onClick={handleButtonClick}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                </svg>
-                </button>
+    return(
+        <>
+            <div className='fondo'>
+                <div className='content'>
+                    <div className='row'>
+                        <p className='date'>{temperature} °C</p>
+                    </div>
+                    <Time/>
+                </div>
             </div>
-            </div>
-        </div>
+        </>
     )
-}
+};
