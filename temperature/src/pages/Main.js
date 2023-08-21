@@ -22,25 +22,40 @@ const db = getDatabase(app);
 
 export default function Temp() {
 
-    const [temperature, setTemperature] = useState('');
+    const [temperature, setTemperature] = useState(null);
+    const [humedad, setHumedad] = useState(null);
 
-    const [postId, setPostId] = useState('-Nb0rU7jYebmAeeUIiqe');
-    let tempRef; 
+    const [uid, setUid] = useState('-Nb0rU7jYebmAeeUIiqe');
+    function capitalizeFirstLetter(str) { return str.charAt(0).toUpperCase() + str.slice(1); } 
 
     let estadoTiempo = "";
 
-
     useEffect(() => {
-        tempRef = ref(db, 'temperature/' + postId + '/grados');
-        const unsubscribe = onValue(tempRef, (snapshot) => {
-            const data = snapshot.val();
-            setTemperature(data);
-        });
-        return () => {
-            unsubscribe();
-        };
-    }, []);
-    console.log(tempRef)
+    const temperatureRef = ref(db, 'temperature/' + uid);
+
+    const unsubscribe = onValue(temperatureRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const temperatureWithDecimals = parseFloat(data.grados).toFixed(1);
+        setTemperature(temperatureWithDecimals);
+        setHumedad(data.humedad);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [uid]);
+
+  // Obtener la fecha actual
+  const currentDate = new Date();
+  const currentDayName = capitalizeFirstLetter(currentDate.toLocaleDateString('es-MX', { weekday: 'short' }));
+
+  const dayName = capitalizeFirstLetter(currentDate.toLocaleDateString('es-MX', { weekday: 'long' }));
+  const formattedDate = currentDate.toLocaleDateString('es-MX', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
     if (temperature >= 30 && temperature < 40){
       estadoTiempo = "soleado";
@@ -60,10 +75,10 @@ export default function Temp() {
             <div className="weather-side">
               <div className="weather-gradient">
                 <div className="date-container">
-                  <h2 className="date-dayname">Viernes</h2>
-                  <span className="date-day">18 Agosto 2023</span>
+                  <h2 className="date-dayname">{dayName}</h2>
+                  <span className="date-day">{formattedDate}</span>
                   <i className="location-icon" data-feather="map-pin"></i>
-                  <span className="location">villahermosa, MX</span>
+                  <span className="location">Villahermosa, MX</span>
                 </div>
                 <div className="weather-container">
                   <i className="weather-icon" data-feather="sun"></i>
@@ -76,17 +91,17 @@ export default function Temp() {
               <div className="today-info-container">
                 <div className="today-info">
                   <div className="precipitation">
-                    <span className="title">PRECIPITATION</span>
+                    <span className="title">PRECIPITACIÓN</span>
                     <span className="value">0 %</span>
                     <div className="clear"></div>
                   </div>
                   <div className="humidity">
-                    <span className="title">HUMIDITY</span>
-                    <span className="value">34 %</span>
+                    <span className="title">HUMEDAD</span>
+                    <span className="value">{humedad} %</span>
                     <div className="clear"></div>
                   </div>
                   <div className="wind">
-                    <span className="title">WIND</span>
+                    <span className="title">VIENTO</span>
                     <span className="value">0 km/h</span>
                     <div className="clear"></div>
                   </div>
@@ -94,25 +109,35 @@ export default function Temp() {
               </div>
               <div className="week-container">
                 <ul className="week-list">
-                  <li >
+                  <li className={currentDayName === 'Dom' ? 'active' : ''}>
                     <i className="day-icon" data-feather="sun"></i>
-                    <span className="day-name">Tue</span>
+                    <span className="day-name">Dom</span>
+                    <span className="day-temp">{temperature}°C</span>
+                  </li>
+                  <li className={currentDayName === 'Lun' ? 'active' : ''}>
+                    <i className="day-icon" data-feather="sun"></i>
+                    <span className="day-name">Lun</span>
                     <span className="day-temp">30°C</span>
                   </li>
-                  <li>
+                  <li className={currentDayName === 'Mar' ? 'active' : ''}>
                     <i className="day-icon" data-feather="cloud"></i>
-                    <span className="day-name">Wed</span>
+                    <span className="day-name">Mar</span>
                     <span className="day-temp">21°C</span>
                   </li>
-                  <li>
+                  <li className={currentDayName === 'Mie' ? 'active' : ''}>
                     <i className="day-icon" data-feather="cloud-snow"></i>
-                    <span className="day-name">Thu</span>
+                    <span className="day-name">Mie</span>
                     <span className="day-temp">18°C</span>
                   </li>
-                  <li className="active">
+                  <li className={currentDayName === 'Jue' ? 'active' : ''}>
                     <i className="day-icon" data-feather="cloud-rain"></i>
-                    <span className="day-name">Fri</span>
-                    <span className="day-temp">{temperature}°C</span>
+                    <span className="day-name">Jue</span>
+                    <span className="day-temp">34°C</span>
+                  </li>
+                  <li className={currentDayName === 'Vie' ? 'active' : ''}>
+                    <i className="day-icon" data-feather="cloud-rain"></i>
+                    <span className="day-name">Vie</span>
+                    <span className="day-temp">56°C</span>
                   </li>
                   <div className="clear"></div>
                 </ul>
