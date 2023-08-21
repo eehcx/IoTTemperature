@@ -29,6 +29,7 @@ export default function Temp() {
 
     let estadoTiempo = "";
 
+
     useEffect(() => {
         tempRef = ref(db, 'temperature/' + postId + '/grados');
         const unsubscribe = onValue(tempRef, (snapshot) => {
@@ -45,8 +46,12 @@ export default function Temp() {
       estadoTiempo = "soleado";
     } else if (temperature < 20 && temperature >= 10){
       estadoTiempo = "Temperatura baja";
-    } else if (temperature >= 40){
+    } else if (temperature >= 40 && temperature <60){
       estadoTiempo = "Extremadamente caluroso";
+    }else if (temperature <10){
+      estadoTiempo = "Extremadamente frío"
+    } else if (temperature >=60){
+      estadoTiempo = "Te estás quemando"
     }
 
     return(

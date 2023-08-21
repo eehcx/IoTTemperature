@@ -49,14 +49,14 @@ body {
 	background-image: url('../assets/images/fondo.jpg');
 	width: 300px;
 	-webkit-box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.2);
-	        box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.2);
 	-webkit-transition: -webkit-transform 300ms ease;
 	transition: -webkit-transform 300ms ease;
 	-o-transition: transform 300ms ease;
 	transition: transform 300ms ease;
 	transition: transform 300ms ease, -webkit-transform 300ms ease;
 	-webkit-transform: translateZ(0) scale(1) perspective(1000px);
-	        transform: translateZ(0) scale(1) perspective(1000px);
+	transform: translateZ(0) scale(1) perspective(1000px);
 	float: left;
 }
 
